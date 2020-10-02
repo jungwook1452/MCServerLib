@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Windows.Forms;
 
 using MCServerLib;
@@ -30,6 +31,7 @@ namespace MCServerExample
                 Server = new MCServer(ServerJARDialog.FileName);
                 Server.OutputReceived += Server_OutputReceived;
                 Server.Exited += Server_Exited;
+                Server.Done += Server_Done;
                 Server.StartOption.NoGUI = true;
 
                 MainTimer.Enabled = true;
@@ -122,6 +124,11 @@ namespace MCServerExample
             StopButton.Enabled = false;
         }
 
+        private void Server_Done(object sender, EventArgs e)
+        {
+            ServerConsoleWriteLine("서버가 정상적으로 실행되었습니다!");
+        }
+
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             Server.StartOption.NoGUI = checkBox1.Checked;
@@ -134,13 +141,22 @@ namespace MCServerExample
 
         private void MainTimer_Tick(object sender, EventArgs e)
         {
+            StringBuilder sb = new StringBuilder("서버 버킷");
+            sb.Append(" (");
+
             if (Server.IsRunning)
-            {
-                Text = string.Format("서버 버킷 (실행중, 실행 횟수 : {0})", Server.ServerStartCount);
-            } else
-            {
-                Text = string.Format("서버 버킷 (중지, 실행 횟수 : {0})", Server.ServerStartCount);
-            }
+                sb.Append("실행중, ");
+            else
+                sb.Append("중지, ");
+
+            if (!Server.IsDone)
+                sb.Append("서버 준비중, ");
+            else
+                sb.Append("준비 완료됨, ");
+
+            sb.Append($"실행 횟수 : {Server.StartCount})");
+
+            Text = sb.ToString();
         }
 
         private void ServerOptionButton_Click(object sender, EventArgs e)

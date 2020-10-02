@@ -27,7 +27,13 @@ namespace MCServerLib
         /// <summary>
         /// 서버 실행 중인 여부를 가져옵니다.
         /// </summary>
-        public bool IsRunning { private set; get; }
+        public bool IsRunning { private set; get; } = false;
+
+        /// <summary>
+        /// 서버 시작 완료 여부를 가져옵니다.
+        /// <para>참고: 서버 실행 시 출력 로그에서 첫글자의 'Done' 부분을 감지하여 true로 설정됩니다.</para>
+        /// </summary>
+        public bool IsDone { private set; get; } = false;
 
         /// <summary>
         /// 서버 설정
@@ -47,7 +53,7 @@ namespace MCServerLib
         /// <summary>
         /// 서버 프로세스 종료 코드를 가져옵니다.
         /// </summary>
-        public int ServerExitCode { private set; get; }
+        public int ServerExitCode { private set; get; } = 0;
 
         /// <summary>
         /// 서버 프로세스
@@ -57,8 +63,12 @@ namespace MCServerLib
         /// <summary>
         /// <see cref="Start(int, int, bool)"/> 메서드로 서버를 실행한 횟수
         /// </summary>
-        public uint ServerStartCount { private set; get; }
+        public uint StartCount { private set; get; }
 
+        /// <summary>
+        /// 서버의 시작 과정이 완료될 때 발생하는 이벤트
+        /// </summary>
+        public event EventHandler Done;
         /// <summary>
         /// 서버로부터 출력한 로그를 받는 이벤트
         /// </summary>
@@ -319,13 +329,13 @@ namespace MCServerLib
             ServerProcess.BeginOutputReadLine();
             ServerProcess.BeginErrorReadLine();
 
-            if (ServerStartCount >= 1)
+            if (StartCount >= 1)
             {
                 ServerJson.LoadAll();
                 LoadPlugins();
             }
 
-            ServerStartCount++;
+            StartCount++;
             IsRunning = true;
         }
 
@@ -511,6 +521,7 @@ namespace MCServerLib
         private void ServerProcess_Exited(object sender, EventArgs e)
         {
             IsRunning = false;
+            IsDone = false;
             ServerExitCode = ServerProcess.ExitCode;
 
             ServerProcess.Dispose();
@@ -528,7 +539,34 @@ namespace MCServerLib
         // 서버 출력 이벤트
         private void ServerProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            Task.Run(() => OutputReceived?.Invoke(this, new MCServerOutputEventArgs(e.Data)));
+            var OutputEventArgs = new MCServerOutputEventArgs(e.Data);
+
+            if (!IsDone)
+            {
+                string ouput = OutputEventArgs.LogOutput;
+                string info = GetSplit(ouput);
+
+                if (info != null)
+                {
+                    string InfoNoOutput = ouput.Replace(string.Format("{0}: ", info), "");
+
+                    if (InfoNoOutput == ouput)
+                        InfoNoOutput = ouput.Replace(string.Format("{0} ", info), "");
+
+                    Console.WriteLine("InfoNoOutput : {0}", InfoNoOutput);
+
+                    if (InfoNoOutput.StartsWith("Done") || InfoNoOutput.StartsWith("done"))
+                    {
+                        IsDone = true;
+                        if (Done != null)
+                        {
+                            RaiseEventOnUIThread(Done, new object[] { this, new EventArgs() });
+                        }
+                    }
+                }
+            }
+
+            Task.Run(() => OutputReceived?.Invoke(this, OutputEventArgs));
         }
 
         private void RaiseEventOnUIThread(Delegate theEvent, object[] args)
@@ -545,6 +583,21 @@ namespace MCServerLib
                     syncer.BeginInvoke(d, args);  // cleanup omitted
                 }
             }
+        }
+
+        private string GetSplit(string query)
+        {
+            if (query == null)
+                return null;
+
+            var matches = System.Text.RegularExpressions.Regex.Matches(query, @"\[(.*?)\]");
+
+            foreach (System.Text.RegularExpressions.Match m in matches)
+            {
+                return m.Groups[0].ToString();
+            }
+
+            return null;
         }
 
         /// <summary>

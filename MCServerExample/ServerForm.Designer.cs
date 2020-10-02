@@ -45,8 +45,13 @@
             this.MainTimer = new System.Windows.Forms.Timer(this.components);
             this.ServerOptionButton = new System.Windows.Forms.Button();
             this.ServerJARDialog = new System.Windows.Forms.OpenFileDialog();
+            this.MainTabControl = new System.Windows.Forms.TabControl();
+            this.ConsoletabPage = new System.Windows.Forms.TabPage();
+            this.OptiontabPage = new System.Windows.Forms.TabPage();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.MainTabControl.SuspendLayout();
+            this.ConsoletabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // ServerConsoleBox
@@ -57,28 +62,28 @@
             this.ServerConsoleBox.BackColor = System.Drawing.Color.Black;
             this.ServerConsoleBox.Font = new System.Drawing.Font("굴림", 10F);
             this.ServerConsoleBox.ForeColor = System.Drawing.Color.Silver;
-            this.ServerConsoleBox.Location = new System.Drawing.Point(12, 107);
+            this.ServerConsoleBox.Location = new System.Drawing.Point(8, 6);
             this.ServerConsoleBox.Multiline = true;
             this.ServerConsoleBox.Name = "ServerConsoleBox";
             this.ServerConsoleBox.ReadOnly = true;
             this.ServerConsoleBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.ServerConsoleBox.Size = new System.Drawing.Size(541, 269);
+            this.ServerConsoleBox.Size = new System.Drawing.Size(692, 306);
             this.ServerConsoleBox.TabIndex = 0;
             // 
             // ServerCommandBox
             // 
             this.ServerCommandBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ServerCommandBox.Location = new System.Drawing.Point(12, 382);
+            this.ServerCommandBox.Location = new System.Drawing.Point(8, 318);
             this.ServerCommandBox.Name = "ServerCommandBox";
-            this.ServerCommandBox.Size = new System.Drawing.Size(379, 21);
+            this.ServerCommandBox.Size = new System.Drawing.Size(536, 21);
             this.ServerCommandBox.TabIndex = 1;
             this.ServerCommandBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ServerCommandBox_KeyDown);
             // 
             // StartButton
             // 
             this.StartButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.StartButton.Location = new System.Drawing.Point(478, 382);
+            this.StartButton.Location = new System.Drawing.Point(625, 318);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(75, 23);
             this.StartButton.TabIndex = 2;
@@ -90,7 +95,7 @@
             // 
             this.StopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.StopButton.Enabled = false;
-            this.StopButton.Location = new System.Drawing.Point(397, 382);
+            this.StopButton.Location = new System.Drawing.Point(548, 318);
             this.StopButton.Name = "StopButton";
             this.StopButton.Size = new System.Drawing.Size(75, 23);
             this.StopButton.TabIndex = 3;
@@ -202,7 +207,7 @@
             // ServerOptionButton
             // 
             this.ServerOptionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ServerOptionButton.Location = new System.Drawing.Point(424, 12);
+            this.ServerOptionButton.Location = new System.Drawing.Point(581, 12);
             this.ServerOptionButton.Name = "ServerOptionButton";
             this.ServerOptionButton.Size = new System.Drawing.Size(129, 23);
             this.ServerOptionButton.TabIndex = 8;
@@ -215,18 +220,52 @@
             this.ServerJARDialog.Filter = "JAR 파일|*.jar|모든 파일|*.*";
             this.ServerJARDialog.Title = "서버 JAR 파일 선택";
             // 
+            // MainTabControl
+            // 
+            this.MainTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MainTabControl.Controls.Add(this.ConsoletabPage);
+            this.MainTabControl.Controls.Add(this.OptiontabPage);
+            this.MainTabControl.Location = new System.Drawing.Point(6, 79);
+            this.MainTabControl.Name = "MainTabControl";
+            this.MainTabControl.SelectedIndex = 0;
+            this.MainTabControl.Size = new System.Drawing.Size(714, 371);
+            this.MainTabControl.TabIndex = 9;
+            // 
+            // ConsoletabPage
+            // 
+            this.ConsoletabPage.Controls.Add(this.ServerConsoleBox);
+            this.ConsoletabPage.Controls.Add(this.ServerCommandBox);
+            this.ConsoletabPage.Controls.Add(this.StartButton);
+            this.ConsoletabPage.Controls.Add(this.StopButton);
+            this.ConsoletabPage.Location = new System.Drawing.Point(4, 22);
+            this.ConsoletabPage.Name = "ConsoletabPage";
+            this.ConsoletabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.ConsoletabPage.Size = new System.Drawing.Size(706, 345);
+            this.ConsoletabPage.TabIndex = 0;
+            this.ConsoletabPage.Text = "콘솔";
+            this.ConsoletabPage.UseVisualStyleBackColor = true;
+            // 
+            // OptiontabPage
+            // 
+            this.OptiontabPage.Location = new System.Drawing.Point(4, 22);
+            this.OptiontabPage.Name = "OptiontabPage";
+            this.OptiontabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.OptiontabPage.Size = new System.Drawing.Size(791, 411);
+            this.OptiontabPage.TabIndex = 1;
+            this.OptiontabPage.Text = "설정";
+            this.OptiontabPage.UseVisualStyleBackColor = true;
+            // 
             // ServerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(565, 415);
+            this.ClientSize = new System.Drawing.Size(722, 462);
+            this.Controls.Add(this.MainTabControl);
             this.Controls.Add(this.ServerOptionButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.StopButton);
-            this.Controls.Add(this.StartButton);
-            this.Controls.Add(this.ServerCommandBox);
-            this.Controls.Add(this.ServerConsoleBox);
             this.MaximizeBox = false;
             this.Name = "ServerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -238,8 +277,10 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.MainTabControl.ResumeLayout(false);
+            this.ConsoletabPage.ResumeLayout(false);
+            this.ConsoletabPage.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -261,5 +302,8 @@
         private System.Windows.Forms.Timer MainTimer;
         private System.Windows.Forms.Button ServerOptionButton;
         private System.Windows.Forms.OpenFileDialog ServerJARDialog;
+        private System.Windows.Forms.TabControl MainTabControl;
+        private System.Windows.Forms.TabPage ConsoletabPage;
+        private System.Windows.Forms.TabPage OptiontabPage;
     }
 }

@@ -119,7 +119,7 @@ namespace MCServerLib
         }
 
         /// <summary>
-        /// ops.json를 로드하여 <see cref="Ops"/>의 관리자 플레이어들의 정보를 가져옵니다.
+        /// ops.json를 로드하여 <see cref="Ops"/>의 구성요소들을 업데이트합니다.
         /// </summary>
         public void LoadOps()
         {
@@ -150,7 +150,7 @@ namespace MCServerLib
         }
 
         /// <summary>
-        /// banned-players.json를 로드하여 <see cref="BanPlayers"/>의 밴 플레이어들의 정보를 가져옵니다.
+        /// banned-players.json를 로드하여 <see cref="BanPlayers"/>의 구성요소들을 업데이트합니다.
         /// </summary>
         public void LoadBanPlayers()
         {
@@ -184,7 +184,7 @@ namespace MCServerLib
         }
 
         /// <summary>
-        /// banned-ips.json를 로드하여 <see cref="BanIPs"/>의 차단 아이피 주소들의 정보를 가져옵니다.
+        /// banned-ips.json를 로드하여 <see cref="BanIPs"/>의 구성요소들을 업데이트합니다.
         /// </summary>
         public void LoadBanIPs()
         {
@@ -216,7 +216,7 @@ namespace MCServerLib
         }
 
         /// <summary>
-        /// whitelist.json를 로드하여 <see cref="WhitelistPlayers"/>의 화이트리스트의 플레이어들의 정보를 가져옵니다.
+        /// whitelist.json를 로드하여 <see cref="WhitelistPlayers"/>의 구성요소들을 업데이트합니다.
         /// </summary>
         public void LoadWhitelistPlayers()
         {
