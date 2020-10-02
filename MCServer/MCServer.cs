@@ -321,7 +321,7 @@ namespace MCServerLib
 
             if (ServerStartCount >= 1)
             {
-                ServerJson.Load();
+                ServerJson.LoadAll();
                 LoadPlugins();
             }
 
@@ -362,23 +362,35 @@ namespace MCServerLib
                 {
                     case "reload":
                         LoadPlugins();
-                        ServerJson.Load();
+                        ServerJson.LoadAll();
                         break;
                     case "op":
                     case "deop":
+                        if (CmdArgs.Length > 1)
+                            ServerJson.LoadOps();
+                        break;
                     case "ban":
+                        if (CmdArgs.Length > 1)
+                            ServerJson.LoadBanPlayers();
+                        break;
                     case "ban-ip":
+                        if (CmdArgs.Length > 1)
+                            ServerJson.LoadBanIPs();
+                        break;
                     case "pardon":
+                        if (CmdArgs.Length > 1)
+                            ServerJson.LoadBanPlayers();
+                        break;
                     case "pardon-ip":
                         if (CmdArgs.Length > 1)
-                            ServerJson.Load();
+                            ServerJson.LoadBanIPs();
                         break;
                     case "whitelist":
                         if (CmdArgs.Length > 2)
                         {
                             if (CmdArgs[1] == "add" || CmdArgs[1] == "remove")
                             {
-                                ServerJson.Load();
+                                ServerJson.LoadWhitelistPlayers();
                             }
                         }
                         break;

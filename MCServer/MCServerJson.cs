@@ -89,7 +89,7 @@ namespace MCServerLib
 
         /// <summary>
         /// 서버의 오피, 밴/아이피 차단, 화이트리스트 정보를 가져옵니다.
-        /// <para>참고 : Load 메서드가 자동으로 호출됩니다.</para>
+        /// <para>참고 : LoadAll 메서드가 자동으로 호출됩니다.</para>
         /// </summary>
         /// <param name="ServerPath">서버 파일이 있는 경로</param>
         public MCServerJson(string ServerPath)
@@ -104,31 +104,29 @@ namespace MCServerLib
             BanIPs = new Dictionary<int, MCBanIPInfo>();
             WhitelistPlayers = new Dictionary<int, MCWhitelistPlayerInfo>();
 
-            Load();
+            LoadAll();
         }
 
         /// <summary>
-        /// 서버의 오피, 밴/아이피 차단, 화이트리스트 정보를 로드합니다.
+        /// 서버의 오피, 밴/아이피 차단, 화이트리스트 정보를 가져옵니다.
         /// </summary>
-        public void Load()
+        public void LoadAll()
         {
-            if (!File.Exists(_OPJsonFileName) || !File.Exists(_BanJsonFileName) || !File.Exists(_BanIPJsonFileName) || !File.Exists(_WhitelistFileName))
-            {
-                Loaded = false;
+            LoadOps();
+            LoadBanPlayers();
+            LoadBanIPs();
+            LoadWhitelistPlayers();
+        }
+
+        /// <summary>
+        /// ops.json를 로드하여 <see cref="Ops"/>의 관리자 플레이어들의 정보를 가져옵니다.
+        /// </summary>
+        public void LoadOps()
+        {
+            if (!File.Exists(_OPJsonFileName))
                 return;
-            }
-
-            Loaded = true;
-
-            OPJsonObj = JArray.Parse(File.ReadAllText(_OPJsonFileName));
-            BanJsonObj = JArray.Parse(File.ReadAllText(_BanJsonFileName));
-            BanIPJsonObj = JArray.Parse(File.ReadAllText(_BanIPJsonFileName));
-            WhitelistJsonObj = JArray.Parse(File.ReadAllText(_WhitelistFileName));
 
             Ops.Clear();
-            BanPlayers.Clear();
-            BanIPs.Clear();
-            WhitelistPlayers.Clear();
 
             int ID = 0;
 
@@ -144,10 +142,22 @@ namespace MCServerLib
                         );
                     Ops.Add(ID, info);
                     ID++;
-                } catch { }
+                }
+                catch { }
             }
+        }
 
-            ID = 0;
+        /// <summary>
+        /// banned-players.json를 로드하여 <see cref="BanPlayers"/>의 밴 플레이어들의 정보를 가져옵니다.
+        /// </summary>
+        public void LoadBanPlayers()
+        {
+            if (!File.Exists(_BanJsonFileName))
+                return;
+
+            BanPlayers.Clear();
+
+            int ID = 0;
 
             foreach (JObject Obj in BanJsonObj.Children())
             {
@@ -167,8 +177,19 @@ namespace MCServerLib
                 }
                 catch { }
             }
+        }
 
-            ID = 0;
+        /// <summary>
+        /// banned-ips.json를 로드하여 <see cref="BanIPs"/>의 차단 아이피 주소들의 정보를 가져옵니다.
+        /// </summary>
+        public void LoadBanIPs()
+        {
+            if (!File.Exists(_BanIPJsonFileName))
+                return;
+
+            BanIPs.Clear();
+
+            int ID = 0;
 
             foreach (JObject Obj in BanIPJsonObj.Children())
             {
@@ -186,15 +207,26 @@ namespace MCServerLib
                 }
                 catch { }
             }
+        }
 
-            ID = 0;
+        /// <summary>
+        /// whitelist.json를 로드하여 <see cref="WhitelistPlayers"/>의 화이트리스트의 플레이어들의 정보를 가져옵니다.
+        /// </summary>
+        public void LoadWhitelistPlayers()
+        {
+            if (!File.Exists(_WhitelistFileName))
+                return;
+
+            WhitelistPlayers.Clear();
+
+            int ID = 0;
 
             foreach (JObject Obj in WhitelistJsonObj.Children())
             {
                 try
                 {
                     var info = new MCWhitelistPlayerInfo(
-                        (string)Obj["name"], 
+                        (string)Obj["name"],
                         (string)Obj["uuid"]
                         );
                     WhitelistPlayers.Add(ID, info);
