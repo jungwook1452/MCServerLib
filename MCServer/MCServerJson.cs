@@ -126,6 +126,8 @@ namespace MCServerLib
             if (!File.Exists(_OPJsonFileName))
                 return;
 
+            OPJsonObj = JArray.Parse(File.ReadAllText(_OPJsonFileName));
+
             Ops.Clear();
 
             int ID = 0;
@@ -154,6 +156,8 @@ namespace MCServerLib
         {
             if (!File.Exists(_BanJsonFileName))
                 return;
+
+            BanJsonObj = JArray.Parse(File.ReadAllText(_BanJsonFileName));
 
             BanPlayers.Clear();
 
@@ -187,6 +191,8 @@ namespace MCServerLib
             if (!File.Exists(_BanIPJsonFileName))
                 return;
 
+            BanIPJsonObj = JArray.Parse(File.ReadAllText(_BanIPJsonFileName));
+
             BanIPs.Clear();
 
             int ID = 0;
@@ -216,6 +222,8 @@ namespace MCServerLib
         {
             if (!File.Exists(_WhitelistFileName))
                 return;
+
+            WhitelistJsonObj = JArray.Parse(File.ReadAllText(_WhitelistFileName));
 
             WhitelistPlayers.Clear();
 
