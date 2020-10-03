@@ -25,4 +25,23 @@ namespace MCServerLib.Exceptions
         {
         }
     }
+
+    public class ServerJARNotFound : Exception
+    {
+        public ServerJARNotFound() : base()
+        {
+        }
+
+        public ServerJARNotFound(string Message) : base()
+        {
+        }
+
+        public ServerJARNotFound(string Message, Exception innerException) : base()
+        {
+        }
+
+        protected ServerJARNotFound(SerializationInfo info, StreamingContext context)
+        {
+        }
+    }
 }

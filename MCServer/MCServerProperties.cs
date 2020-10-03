@@ -5,6 +5,8 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
+using static MCServerLib.MCServerInternal;
+
 namespace MCServerLib
 {
     /// <summary>
@@ -146,40 +148,6 @@ namespace MCServerLib
         {
             PropertiesFileName = Path.Combine(ServerPath, "server.properties");
             Load();
-        }
-
-        /// <summary>
-        /// 숫자 문자열을 32비트 부호 있는 정수로 변환합니다.
-        /// </summary>
-        /// <param name="number">변환할 숫자 문자열</param>
-        /// <param name="default">변환 실패 시 대체할 정수값</param>
-        /// <returns></returns>
-        private int StringToInt(string number, int @default = 0)
-        {
-            int result;
-
-            if (int.TryParse(number, out result))
-            {
-                return result;
-            }
-            return @default;
-        }
-
-        /// <summary>
-        /// 논리값이나 bool 문자열을 bool으로 변환합니다.
-        /// </summary>
-        /// <param name="boolTxt">변환할 논리값 또는 bool 문자열</param>
-        /// <param name="default">변환 실패 시 대체할 bool 값</param>
-        /// <returns></returns>
-        private bool StringToBool(string boolTxt, bool @default = false)
-        {
-            bool result;
-
-            if (bool.TryParse(boolTxt, out result))
-            {
-                return result;
-            }
-            return @default;
         }
 
         /// <summary>

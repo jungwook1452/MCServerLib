@@ -62,6 +62,7 @@
     <Compile Include="MCPlayerInfos.cs" />
     <Compile Include="MCPluginInfo.cs" />
     <Compile Include="MCServer.cs" />
+    <Compile Include="MCServerInternal.cs" />
     <Compile Include="MCServerJson.cs" />
     <Compile Include="MCServerOutputEvent.cs" />
     <Compile Include="MCServerProperties.cs" />

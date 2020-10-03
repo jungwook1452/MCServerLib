@@ -4,8 +4,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+
+using static MCServerLib.MCServerInternal;
 using MCServerLib.Exceptions;
-using Microsoft.Win32;
 
 namespace MCServerLib
 {
@@ -31,7 +32,7 @@ namespace MCServerLib
 
         /// <summary>
         /// 서버 시작 완료 여부를 가져옵니다.
-        /// <para>참고: 서버 실행 시 출력 로그에서 첫글자의 'Done' 부분을 감지하여 true로 설정됩니다.</para>
+        /// <para>참고: 출력 로그에서 Done 및 For help, type "help" (이)가 발견되었을 경우 true로 설정됩니다. 서버가 종료될 시 false으로 변경됩니다.</para>
         /// </summary>
         public bool IsDone { private set; get; } = false;
 
@@ -107,6 +108,18 @@ namespace MCServerLib
         /// <param name="Option">서버 시작 정보</param>
         public MCServer(MCServerStartOption Option)
         {
+            // JarPath가 null 인지 확인합니다.
+            if (Option.JarPath == null)
+            {
+                throw new Exception("StartOption.JarPath가 null 입니다.");
+            }
+
+            // JavaPath가 null 인지 확인합니다.
+            if (Option.JavaPath == null)
+            {
+                throw new Exception("StartOption.JavaPath가 null 입니다.");
+            }
+
             if (Option.JavaPath == null)
                 Init(Option.JarPath, GetJavaInstallPath(), Option);
             else
@@ -128,18 +141,18 @@ namespace MCServerLib
                     throw new JavaNotFound();
 
                 if (!File.Exists(Path.Combine(JavaSetupPath, "bin\\java.exe")))
-                    throw new IOException("자바 설치 폴더에서 java.exe를 찾을 수 없습니다.");
+                    throw new JavaNotFound("자바 설치 폴더에서 java.exe를 찾을 수 없습니다.");
 
                 StartOption.JavaPath = JavaSetupPath;
             }
             else
             {
-                throw new Exception("캄퓨터에 설치된 자바를 찾을 수 없습니다!");
+                throw new JavaNotFound("캄퓨터에 설치된 자바를 찾을 수 없습니다!");
             }
-
+            
             if (!File.Exists(ServerCoreFileName))
             {
-                throw new IOException($"'{ServerCoreFileName}' 서버 코어 파일을 찾을 수 없습니다.");
+                throw new ServerJARNotFound($"'{ServerCoreFileName}' 서버 코어 파일을 찾을 수 없습니다.");
             }
 
             ServerRootPath = Path.GetDirectoryName(ServerCoreFileName);
@@ -543,20 +556,14 @@ namespace MCServerLib
 
             if (!IsDone)
             {
-                string ouput = OutputEventArgs.LogOutput;
-                string info = GetSplit(ouput);
+                string output = OutputEventArgs.LogOutput;
 
-                if (info != null)
+                if (System.Text.RegularExpressions.Regex.IsMatch(output, "Done", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
                 {
-                    string InfoNoOutput = ouput.Replace(string.Format("{0}: ", info), "");
-
-                    if (InfoNoOutput == ouput)
-                        InfoNoOutput = ouput.Replace(string.Format("{0} ", info), "");
-
-                    Console.WriteLine("InfoNoOutput : {0}", InfoNoOutput);
-
-                    if (InfoNoOutput.StartsWith("Done") || InfoNoOutput.StartsWith("done"))
+                    if (System.Text.RegularExpressions.Regex.IsMatch(output, "For help, type \"help\"", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
                     {
+                        // 출력된 로그에서 Done 및 For help, type "help" (이)가 발견되었을 경우 시작 과정이 완료됨으로 판단됨
+
                         IsDone = true;
                         if (Done != null)
                         {
@@ -583,54 +590,6 @@ namespace MCServerLib
                     syncer.BeginInvoke(d, args);  // cleanup omitted
                 }
             }
-        }
-
-        private string GetSplit(string query)
-        {
-            if (query == null)
-                return null;
-
-            var matches = System.Text.RegularExpressions.Regex.Matches(query, @"\[(.*?)\]");
-
-            foreach (System.Text.RegularExpressions.Match m in matches)
-            {
-                return m.Groups[0].ToString();
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// 컴퓨터에 설치된 Java를 확인하고 Java 설치 경로를 가져옵니다.
-        /// </summary>
-        /// <returns>설치된 자바 경로, 자바가 설치되어 있지 않다면 null 입니다.</returns>
-        private string GetJavaInstallPath()
-        {
-            string JavaHome = null;
-
-            using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
-            {
-                using (RegistryKey key = hklm.OpenSubKey(@"SOFTWARE\JavaSoft\Java Runtime Environment", false))
-                {
-                    if (key == null)
-                    {
-                        return null;
-                    }
-
-                    foreach (string Subkey in key.GetSubKeyNames())
-                    {
-                        using (RegistryKey key2 = key.OpenSubKey(Subkey, false))
-                        {
-                            JavaHome = (string)key2.GetValue("JavaHome");
-                            if (JavaHome != null)
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            return JavaHome;
         }
     }
 }

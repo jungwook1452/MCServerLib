@@ -112,10 +112,7 @@ namespace MCServerExample
 
         private void Server_OutputReceived(object sender, MCServerOutputEventArgs e)
         {
-            if (e.LogInfo != null)
-            {
-                ServerConsoleWriteLine(e.LogInfoNoOutput);
-            }
+            ServerConsoleWriteLine(e.LogOutput);
         }
 
         private void Server_Exited(object sender, EventArgs e)

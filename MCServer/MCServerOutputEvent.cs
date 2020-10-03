@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 
 namespace MCServerLib
 {
@@ -31,10 +30,7 @@ namespace MCServerLib
                     {
                         if (_LogInfoNoOutput == null && _LogInfo != null)
                         {
-                            _LogInfoNoOutput = LogOutput.Replace(string.Format("{0}: ", _LogInfo), "");
-
-                            if (_LogInfoNoOutput == LogOutput)
-                                _LogInfoNoOutput = LogOutput.Replace(string.Format("{0} ", _LogInfo), "");
+                            _LogInfoNoOutput = MCServerInternal.GetLogInfoNoOutput(LogOutput);
                         }
                     }
                 }
@@ -54,7 +50,7 @@ namespace MCServerLib
                     lock (_lockObj2)
                     {
                         if (_LogInfo == null)
-                            _LogInfo = GetSplit(LogOutput);
+                            _LogInfo = MCServerInternal.GetLogInfoSplit(LogOutput);
                     }
                 }
                 return _LogInfo;
@@ -70,21 +66,6 @@ namespace MCServerLib
         {
             LogOutput = Data;
             OutputTime = DateTime.Now;
-        }
-
-        private string GetSplit(string query)
-        {
-            if (query == null)
-                return null;
-
-            var matches = Regex.Matches(query, @"\[(.*?)\]");
-
-            foreach (Match m in matches)
-            {
-                return m.Groups[0].ToString();
-            }
-
-            return null;
         }
     }
 }
