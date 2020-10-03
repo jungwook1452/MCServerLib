@@ -19,6 +19,7 @@ namespace MCServerLib
 
         /// <summary>
         /// 로그 전체 내용에서 로그 정보를 뺀 내용 (예: [XX:XX:XX INFO] Test -> Test)
+        /// <para>주의 : Paper 기준으로 만들었으며, 다른 서버 JAR에서 제대로 변환되지 않을수도 있습니다.</para>
         /// </summary>
         public string LogInfoNoOutput
         {
@@ -40,6 +41,7 @@ namespace MCServerLib
 
         /// <summary>
         /// 로그 정보 (예: [XX:XX:XX INFO])
+        /// <para>주의 : Paper 기준으로 만들었으며, 다른 서버 JAR에서 제대로 변환되지 않을수도 있습니다.</para>
         /// </summary>
         public string LogInfo
         {
