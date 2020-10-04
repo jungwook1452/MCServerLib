@@ -13,7 +13,7 @@ namespace MCServerLib
     /// <summary>
     /// 서버를 시작하고 중지하고 이벤트를 통해 실시간으로 서버로부터 데이터(로그, 오류 등)를 받습니다.
     /// </summary>
-    public class MCServer
+    public class MCServer : IDisposable
     {
         /// <summary>
         /// 서버를 실행하는데 필요한 정보입니다.
@@ -158,15 +158,6 @@ namespace MCServerLib
             ServerRootPath = Path.GetDirectoryName(ServerCoreFileName);
 
             StartOption.JarPath = Path.Combine(ServerRootPath, Path.GetFileName(ServerCoreFileName));
-
-            if (!File.Exists(Path.Combine(ServerRootPath, "banned-ips.json")))
-                File.WriteAllBytes(Path.Combine(ServerRootPath, "banned-ips.json"), Properties.Resources.banned_ips);
-            if (!File.Exists(Path.Combine(ServerRootPath, "banned-players.json")))
-                File.WriteAllBytes(Path.Combine(ServerRootPath, "banned-players.json"), Properties.Resources.banned_players);
-            if (!File.Exists(Path.Combine(ServerRootPath, "ops.json")))
-                File.WriteAllBytes(Path.Combine(ServerRootPath, "ops.json"), Properties.Resources.ops);
-            if (!File.Exists(Path.Combine(ServerRootPath, "whitelist.json")))
-                File.WriteAllBytes(Path.Combine(ServerRootPath, "whitelist.json"), Properties.Resources.whitelist);
 
             ServerProperties = new MCServerProperties(ServerRootPath);
             ServerJson = new MCServerJson(ServerRootPath);
@@ -363,13 +354,19 @@ namespace MCServerLib
             SendCommand("stop");
         }
 
+        public void Dispose()
+        {
+            
+        }
+
         #region Server Commands
 
         /// <summary>
         /// 서버에 명령어를 전송합니다. 서버가 실행 중일때만 작동합니다.
         /// </summary>
-        /// <param name="command"></param>
-        public void SendCommand(string command)
+        /// <param name="command">서버에 전달할 명령어</param>
+        /// <param name="NoReload">true로 설정 시 op, ban 등의 JSON 변경 관련 명령어를 받았을 때 해당 JSON 파일을 재로딩하지 않습니다.</param>
+        public void SendCommand(string command, bool NoReload = false)
         {
             if (IsRunning)
             {
@@ -377,46 +374,49 @@ namespace MCServerLib
 
                 ServerProcess.StandardInput.WriteLine(command);
 
-                System.Threading.Thread.Sleep(500);
-
-                string[] CmdArgs = command.Split(' ');
-
-                switch (CmdArgs[0].ToLower())
+                if (!NoReload)
                 {
-                    case "reload":
-                        LoadPlugins();
-                        ServerJson.LoadAll();
-                        break;
-                    case "op":
-                    case "deop":
-                        if (CmdArgs.Length > 1)
-                            ServerJson.LoadOps();
-                        break;
-                    case "ban":
-                        if (CmdArgs.Length > 1)
-                            ServerJson.LoadBanPlayers();
-                        break;
-                    case "ban-ip":
-                        if (CmdArgs.Length > 1)
-                            ServerJson.LoadBanIPs();
-                        break;
-                    case "pardon":
-                        if (CmdArgs.Length > 1)
-                            ServerJson.LoadBanPlayers();
-                        break;
-                    case "pardon-ip":
-                        if (CmdArgs.Length > 1)
-                            ServerJson.LoadBanIPs();
-                        break;
-                    case "whitelist":
-                        if (CmdArgs.Length > 2)
-                        {
-                            if (CmdArgs[1] == "add" || CmdArgs[1] == "remove")
+                    System.Threading.Thread.Sleep(100);
+
+                    string[] CmdArgs = command.Split(' ');
+
+                    switch (CmdArgs[0].ToLower())
+                    {
+                        case "reload":
+                            LoadPlugins();
+                            ServerJson.LoadAll();
+                            break;
+                        case "op":
+                        case "deop":
+                            if (CmdArgs.Length > 1)
+                                ServerJson.LoadOps();
+                            break;
+                        case "ban":
+                            if (CmdArgs.Length > 1)
+                                ServerJson.LoadBanPlayers();
+                            break;
+                        case "ban-ip":
+                            if (CmdArgs.Length > 1)
+                                ServerJson.LoadBanIPs();
+                            break;
+                        case "pardon":
+                            if (CmdArgs.Length > 1)
+                                ServerJson.LoadBanPlayers();
+                            break;
+                        case "pardon-ip":
+                            if (CmdArgs.Length > 1)
+                                ServerJson.LoadBanIPs();
+                            break;
+                        case "whitelist":
+                            if (CmdArgs.Length > 2)
                             {
-                                ServerJson.LoadWhitelistPlayers();
+                                if (CmdArgs[1] == "add" || CmdArgs[1] == "remove")
+                                {
+                                    ServerJson.LoadWhitelistPlayers();
+                                }
                             }
-                        }
-                        break;
+                            break;
+                    }
                 }
             }
         }

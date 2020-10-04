@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Windows.Forms;
+using MCServerExample.Controls;
 
 using MCServerLib;
 
@@ -16,6 +17,8 @@ namespace MCServerExample
         private delegate void DServerConsoleWriteLine(string text);
 
         private MCServer Server;
+
+        private BanListControl BanlistControl;
 
         private void ServerForm_Load(object sender, EventArgs e)
         {
@@ -33,6 +36,14 @@ namespace MCServerExample
                 Server.Exited += Server_Exited;
                 Server.Done += Server_Done;
                 Server.StartOption.NoGUI = true;
+
+                BanlistControl = new BanListControl()
+                {
+                    server = Server,
+                    Dock = DockStyle.Fill
+                };
+
+                BantabPage.Controls.Add(BanlistControl);
 
                 MainTimer.Enabled = true;
             } else

@@ -77,10 +77,7 @@
   <ItemGroup>
     <None Include="jungwook.pfx" />
     <None Include="packages.config" />
-    <None Include="Resources\banned-ips.json" />
-    <None Include="Resources\banned-players.json" />
-    <None Include="Resources\ops.json" />
-    <None Include="Resources\whitelist.json" />
+    <None Include="Resources\EmptyServerJson.json" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

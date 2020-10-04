@@ -49,6 +49,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\BanListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BanListControl.Designer.cs">
+      <DependentUpon>BanListControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DownForms\BanPlayerAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DownForms\BanPlayerAddForm.Designer.cs">
+      <DependentUpon>BanPlayerAddForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerForm.cs">
@@ -74,6 +86,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\BanListControl.resx">
+      <DependentUpon>BanListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownForms\BanPlayerAddForm.resx">
+      <DependentUpon>BanPlayerAddForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ServerForm.resx">
       <DependentUpon>ServerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -81,5 +99,6 @@
       <DependentUpon>ServerOptionForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

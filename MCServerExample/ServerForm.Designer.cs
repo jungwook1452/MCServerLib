@@ -47,7 +47,7 @@
             this.ServerJARDialog = new System.Windows.Forms.OpenFileDialog();
             this.MainTabControl = new System.Windows.Forms.TabControl();
             this.ConsoletabPage = new System.Windows.Forms.TabPage();
-            this.OptiontabPage = new System.Windows.Forms.TabPage();
+            this.BantabPage = new System.Windows.Forms.TabPage();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.MainTabControl.SuspendLayout();
@@ -226,7 +226,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MainTabControl.Controls.Add(this.ConsoletabPage);
-            this.MainTabControl.Controls.Add(this.OptiontabPage);
+            this.MainTabControl.Controls.Add(this.BantabPage);
             this.MainTabControl.Location = new System.Drawing.Point(6, 79);
             this.MainTabControl.Name = "MainTabControl";
             this.MainTabControl.SelectedIndex = 0;
@@ -247,15 +247,15 @@
             this.ConsoletabPage.Text = "콘솔";
             this.ConsoletabPage.UseVisualStyleBackColor = true;
             // 
-            // OptiontabPage
+            // BantabPage
             // 
-            this.OptiontabPage.Location = new System.Drawing.Point(4, 22);
-            this.OptiontabPage.Name = "OptiontabPage";
-            this.OptiontabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.OptiontabPage.Size = new System.Drawing.Size(791, 411);
-            this.OptiontabPage.TabIndex = 1;
-            this.OptiontabPage.Text = "설정";
-            this.OptiontabPage.UseVisualStyleBackColor = true;
+            this.BantabPage.Location = new System.Drawing.Point(4, 22);
+            this.BantabPage.Name = "BantabPage";
+            this.BantabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.BantabPage.Size = new System.Drawing.Size(706, 345);
+            this.BantabPage.TabIndex = 1;
+            this.BantabPage.Text = "밴 관리";
+            this.BantabPage.UseVisualStyleBackColor = true;
             // 
             // ServerForm
             // 
@@ -304,6 +304,6 @@
         private System.Windows.Forms.OpenFileDialog ServerJARDialog;
         private System.Windows.Forms.TabControl MainTabControl;
         private System.Windows.Forms.TabPage ConsoletabPage;
-        private System.Windows.Forms.TabPage OptiontabPage;
+        private System.Windows.Forms.TabPage BantabPage;
     }
 }

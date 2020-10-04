@@ -63,39 +63,9 @@ namespace MCServerLib.Properties {
         /// <summary>
         ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static byte[] banned_ips {
+        internal static byte[] EmptyServerJson {
             get {
-                object obj = ResourceManager.GetObject("banned_ips", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        internal static byte[] banned_players {
-            get {
-                object obj = ResourceManager.GetObject("banned_players", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        internal static byte[] ops {
-            get {
-                object obj = ResourceManager.GetObject("ops", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
-        /// </summary>
-        internal static byte[] whitelist {
-            get {
-                object obj = ResourceManager.GetObject("whitelist", resourceCulture);
+                object obj = ResourceManager.GetObject("EmptyServerJson", resourceCulture);
                 return ((byte[])(obj));
             }
         }

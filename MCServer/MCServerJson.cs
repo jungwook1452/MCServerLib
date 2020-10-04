@@ -11,10 +11,10 @@ namespace MCServerLib
     /// </summary>
     public class MCServerJson
     {
-        private string _OPJsonFileName;
-        private string _BanJsonFileName;
-        private string _BanIPJsonFileName;
-        private string _WhitelistFileName;
+        public string OPJsonFileName { private set; get; }
+        public string BanJsonFileName { private set; get; }
+        public string BanIPJsonFileName { private set; get; }
+        public string WhitelistFileName { private set; get; }
 
         private JArray OPJsonObj;
         private JArray BanJsonObj;
@@ -94,10 +94,19 @@ namespace MCServerLib
         /// <param name="ServerPath">서버 파일이 있는 경로</param>
         public MCServerJson(string ServerPath)
         {
-            _OPJsonFileName = Path.Combine(ServerPath, "ops.json");
-            _BanJsonFileName = Path.Combine(ServerPath, "banned-players.json");
-            _BanIPJsonFileName = Path.Combine(ServerPath, "banned-ips.json");
-            _WhitelistFileName = Path.Combine(ServerPath, "whitelist.json");
+            OPJsonFileName = Path.Combine(ServerPath, "ops.json");
+            BanJsonFileName = Path.Combine(ServerPath, "banned-players.json");
+            BanIPJsonFileName = Path.Combine(ServerPath, "banned-ips.json");
+            WhitelistFileName = Path.Combine(ServerPath, "whitelist.json");
+
+            if (!File.Exists(OPJsonFileName))
+                File.WriteAllBytes(OPJsonFileName, Properties.Resources.EmptyServerJson);
+            if (!File.Exists(BanJsonFileName))
+                File.WriteAllBytes(BanJsonFileName, Properties.Resources.EmptyServerJson);
+            if (!File.Exists(BanIPJsonFileName))
+                File.WriteAllBytes(BanIPJsonFileName, Properties.Resources.EmptyServerJson);
+            if (!File.Exists(WhitelistFileName))
+                File.WriteAllBytes(WhitelistFileName, Properties.Resources.EmptyServerJson);
 
             Ops = new Dictionary<int, MCOpPlayerInfo>();
             BanPlayers = new Dictionary<int, MCBanPlayerInfo>();
@@ -123,10 +132,10 @@ namespace MCServerLib
         /// </summary>
         public void LoadOps()
         {
-            if (!File.Exists(_OPJsonFileName))
+            if (!File.Exists(OPJsonFileName))
                 return;
 
-            OPJsonObj = JArray.Parse(File.ReadAllText(_OPJsonFileName));
+            OPJsonObj = JArray.Parse(File.ReadAllText(OPJsonFileName));
 
             Ops.Clear();
 
@@ -154,10 +163,10 @@ namespace MCServerLib
         /// </summary>
         public void LoadBanPlayers()
         {
-            if (!File.Exists(_BanJsonFileName))
+            if (!File.Exists(BanJsonFileName))
                 return;
 
-            BanJsonObj = JArray.Parse(File.ReadAllText(_BanJsonFileName));
+            BanJsonObj = JArray.Parse(File.ReadAllText(BanJsonFileName));
 
             BanPlayers.Clear();
 
@@ -188,10 +197,10 @@ namespace MCServerLib
         /// </summary>
         public void LoadBanIPs()
         {
-            if (!File.Exists(_BanIPJsonFileName))
+            if (!File.Exists(BanIPJsonFileName))
                 return;
 
-            BanIPJsonObj = JArray.Parse(File.ReadAllText(_BanIPJsonFileName));
+            BanIPJsonObj = JArray.Parse(File.ReadAllText(BanIPJsonFileName));
 
             BanIPs.Clear();
 
@@ -220,10 +229,10 @@ namespace MCServerLib
         /// </summary>
         public void LoadWhitelistPlayers()
         {
-            if (!File.Exists(_WhitelistFileName))
+            if (!File.Exists(WhitelistFileName))
                 return;
 
-            WhitelistJsonObj = JArray.Parse(File.ReadAllText(_WhitelistFileName));
+            WhitelistJsonObj = JArray.Parse(File.ReadAllText(WhitelistFileName));
 
             WhitelistPlayers.Clear();
 
