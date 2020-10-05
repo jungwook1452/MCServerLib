@@ -48,6 +48,7 @@
             this.MainTabControl = new System.Windows.Forms.TabControl();
             this.ConsoletabPage = new System.Windows.Forms.TabPage();
             this.BantabPage = new System.Windows.Forms.TabPage();
+            this.WhiteListTabPage = new System.Windows.Forms.TabPage();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.MainTabControl.SuspendLayout();
@@ -227,6 +228,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MainTabControl.Controls.Add(this.ConsoletabPage);
             this.MainTabControl.Controls.Add(this.BantabPage);
+            this.MainTabControl.Controls.Add(this.WhiteListTabPage);
             this.MainTabControl.Location = new System.Drawing.Point(6, 79);
             this.MainTabControl.Name = "MainTabControl";
             this.MainTabControl.SelectedIndex = 0;
@@ -256,6 +258,16 @@
             this.BantabPage.TabIndex = 1;
             this.BantabPage.Text = "밴 관리";
             this.BantabPage.UseVisualStyleBackColor = true;
+            // 
+            // WhiteListTabPage
+            // 
+            this.WhiteListTabPage.Location = new System.Drawing.Point(4, 22);
+            this.WhiteListTabPage.Name = "WhiteListTabPage";
+            this.WhiteListTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.WhiteListTabPage.Size = new System.Drawing.Size(706, 345);
+            this.WhiteListTabPage.TabIndex = 2;
+            this.WhiteListTabPage.Text = "화이트리스트 관리";
+            this.WhiteListTabPage.UseVisualStyleBackColor = true;
             // 
             // ServerForm
             // 
@@ -305,5 +317,6 @@
         private System.Windows.Forms.TabControl MainTabControl;
         private System.Windows.Forms.TabPage ConsoletabPage;
         private System.Windows.Forms.TabPage BantabPage;
+        private System.Windows.Forms.TabPage WhiteListTabPage;
     }
 }

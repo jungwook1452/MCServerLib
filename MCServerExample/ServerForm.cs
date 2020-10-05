@@ -19,10 +19,11 @@ namespace MCServerExample
         private MCServer Server;
 
         private BanListControl BanlistControl;
+        private WhiteListControl WhitelistControl;
 
         private void ServerForm_Load(object sender, EventArgs e)
         {
-
+            ServerConsoleWriteLine("Hello! MCServerExample");
         }
 
         private void ServerForm_Shown(object sender, EventArgs e)
@@ -43,7 +44,13 @@ namespace MCServerExample
                     Dock = DockStyle.Fill
                 };
 
+                WhitelistControl = new WhiteListControl(Server)
+                {
+                    Dock = DockStyle.Fill
+                };
+
                 BantabPage.Controls.Add(BanlistControl);
+                WhiteListTabPage.Controls.Add(WhitelistControl);
 
                 MainTimer.Enabled = true;
             } else

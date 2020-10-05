@@ -55,6 +55,12 @@
     <Compile Include="Controls\BanListControl.Designer.cs">
       <DependentUpon>BanListControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\WhiteListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\WhiteListControl.Designer.cs">
+      <DependentUpon>WhiteListControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DownForms\BanPlayerAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,6 +94,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Controls\BanListControl.resx">
       <DependentUpon>BanListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\WhiteListControl.resx">
+      <DependentUpon>WhiteListControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DownForms\BanPlayerAddForm.resx">
       <DependentUpon>BanPlayerAddForm.cs</DependentUpon>

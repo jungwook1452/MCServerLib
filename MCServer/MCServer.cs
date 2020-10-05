@@ -13,7 +13,7 @@ namespace MCServerLib
     /// <summary>
     /// 서버를 시작하고 중지하고 이벤트를 통해 실시간으로 서버로부터 데이터(로그, 오류 등)를 받습니다.
     /// </summary>
-    public class MCServer : IDisposable
+    public class MCServer
     {
         /// <summary>
         /// 서버를 실행하는데 필요한 정보입니다.
@@ -352,11 +352,6 @@ namespace MCServerLib
                 return;
 
             SendCommand("stop");
-        }
-
-        public void Dispose()
-        {
-            
         }
 
         #region Server Commands
