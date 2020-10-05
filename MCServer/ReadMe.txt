@@ -41,6 +41,8 @@ server.SendCommand("(전송할 명령어)");
 
 이며, 몇몇 명령어를 메서드로 만들었습니다. (AddOP, DeleteOP, AddBan, AddBanIP 메서드 등)
 
+그 외 기능들은 같이 참부된 예시를 참고하십시오.
+
 프로그램을 종료하기 전에 서버에 종료 명령어를 보내주는 것이 중요합니다. 종료 명령어를 보내지 않고 종료되면, 서버 프로세스는 그대로 남게됩니다.
 따라서 프로그램 종료 전에  server.Stop 메서드를 호출하거나 SendCommand로 서버에 stop 명령어를 보내세요. (Stop로 보내든 SendCommand로 보내든 Stop 메서드는 내부적으로 SendCommand를 호출합니다.)
 
