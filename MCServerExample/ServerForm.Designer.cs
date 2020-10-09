@@ -278,7 +278,6 @@
             this.Controls.Add(this.ServerOptionButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.MaximizeBox = false;
             this.Name = "ServerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "서버 버킷";

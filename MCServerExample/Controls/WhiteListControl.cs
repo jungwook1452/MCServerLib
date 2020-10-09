@@ -104,8 +104,6 @@ namespace MCServerExample.Controls
                 return;
             }
 
-            WlAddPlayerNameBox.Text = string.Empty;
-
             if (!Server.IsDone)
             {
                 MessageBox.Show("서버가 실행할 준비가 되어 있지 않습니다.", "서버가 실행되어 있지 않음", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -113,8 +111,11 @@ namespace MCServerExample.Controls
             }
 
             Server.WhitelistAdd(WlAddPlayerNameBox.Text);
+
             Server.ServerJson.LoadWhitelistPlayers();
             WlUpdate();
+
+            WlAddPlayerNameBox.Text = string.Empty;
         }
 
         private void WlRemoveButton_Click(object sender, EventArgs e)

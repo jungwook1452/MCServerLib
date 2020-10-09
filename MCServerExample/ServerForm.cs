@@ -33,6 +33,7 @@ namespace MCServerExample
             if (ServerJARDialog.ShowDialog() == DialogResult.OK)
             {
                 Server = new MCServer(ServerJARDialog.FileName);
+                Server.CommandAutoJSONLoad = false;
                 Server.OutputReceived += Server_OutputReceived;
                 Server.Exited += Server_Exited;
                 Server.Done += Server_Done;
@@ -56,7 +57,11 @@ namespace MCServerExample
             } else
             {
                 Close();
+                return;
             }
+
+            ServerConsoleWriteLine($"Use Server Core JAR : {Server.StartOption.JarPath}");
+            ServerConsoleWriteLine($"Loaded Server's server.properties and JSON Files.");
         }
 
         private void ServerForm_FormClosing(object sender, FormClosingEventArgs e)

@@ -76,6 +76,54 @@ namespace MCServerLib
             return JavaHome;
         }
 
+        /// <summary>
+        /// 해당 플러그인의 plugin.yml 파일 내용을 가져옵니다.
+        /// </summary>
+        /// <param name="PluginFileName">플러그인 파일 (JAR)</param>
+        /// <returns>해당 플러그인의 plugin.yml 파일 내용, 실패할 경우 null입니다.</returns>
+        internal static string GetPluginInfo(string PluginFileName)
+        {
+            try
+            {
+                using (System.IO.Compression.ZipArchive archive = System.IO.Compression.ZipFile.OpenRead(PluginFileName))
+                {
+                    System.IO.Compression.ZipArchiveEntry entry = archive.GetEntry("plugin.yml");
+
+                    if (entry != null)
+                    {
+                        using (System.IO.StreamReader reader = new System.IO.StreamReader(entry.Open()))
+                        {
+                            return reader.ReadToEnd();
+                        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        internal static void RaiseEventOnUIThread(Delegate theEvent, object[] args)
+        {
+            foreach (Delegate d in theEvent.GetInvocationList())
+            {
+                System.ComponentModel.ISynchronizeInvoke syncer = d.Target as System.ComponentModel.ISynchronizeInvoke;
+                if (syncer == null)
+                {
+                    d.DynamicInvoke(args);
+                }
+                else
+                {
+                    syncer.BeginInvoke(d, args);  // cleanup omitted
+                }
+            }
+        }
+
         internal static string GetLogInfoSplit(string query)
         {
             if (query == null)

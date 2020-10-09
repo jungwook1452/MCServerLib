@@ -37,6 +37,14 @@ namespace MCServerLib
         public bool IsDone { private set; get; } = false;
 
         /// <summary>
+        /// <see cref="SendCommand"/> 메서드가 op, ban, ban-ip, pardon, pardon-ip, whitelist 명령어를 받은 경우 아래와 같은 해당 명령어와 관련된 JSON 파일을 자동으로 다시 로드하는 여부를 가져오거나 설정합니다.
+        /// <para>op = ops.json</para>
+        /// <para>ban, ban-ip, pardon, pardon-ip = 플레이어 : banned-player.json, 아이피 : banned-ips.json</para>
+        /// <para>whitelist add/remove = whitelist.json</para>
+        /// </summary>
+        public bool CommandAutoJSONLoad = true;
+
+        /// <summary>
         /// 서버 설정
         /// </summary>
         public MCServerProperties ServerProperties { private set; get; }
@@ -242,36 +250,6 @@ namespace MCServerLib
         }
 
         /// <summary>
-        /// 해당 플러그인의 plugin.yml 파일 내용을 가져옵니다.
-        /// </summary>
-        /// <param name="PluginFileName">플러그인 파일 (JAR)</param>
-        /// <returns>해당 플러그인의 plugin.yml 파일 내용, 실패할 경우 null입니다.</returns>
-        private string GetPluginInfo(string PluginFileName)
-        {
-            try
-            {
-                using (System.IO.Compression.ZipArchive archive = System.IO.Compression.ZipFile.OpenRead(PluginFileName))
-                {
-                    System.IO.Compression.ZipArchiveEntry entry = archive.GetEntry("plugin.yml");
-
-                    if (entry != null)
-                    {
-                        using (StreamReader reader = new StreamReader(entry.Open()))
-                        {
-                            return reader.ReadToEnd();
-                        }
-                    } else
-                    {
-                        return null;
-                    }
-                }
-            } catch
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
         /// 서버를 시작합니다.
         /// <para>참고 : 한번 실행한 이후 다시 실행하면 서버 JSON 파일들(관리자(OP), 밴, 차단 아이피, 등) 및 플러그인 정보 목록을 다시 불러옵니다.</para>
         /// </summary>
@@ -360,7 +338,7 @@ namespace MCServerLib
         /// 서버에 명령어를 전송합니다. 서버가 실행 중일때만 작동합니다.
         /// </summary>
         /// <param name="command">서버에 전달할 명령어</param>
-        /// <param name="NoReload">true로 설정 시 op, ban 등의 JSON 변경 관련 명령어를 받았을 때 해당 JSON 파일을 재로딩하지 않습니다.</param>
+        /// <param name="NoReload">true로 설정 시 op, ban 등의 JSON 변경 관련 명령어를 받았을 때 해당 명령어에 관련된 JSON 파일을 다시 로드하지 않습니다. 다만 <see cref="CommandAutoJSONLoad"/>가 false인 경우는 무시됩니다.</param>
         public void SendCommand(string command, bool NoReload = false)
         {
             if (IsRunning)
@@ -369,7 +347,7 @@ namespace MCServerLib
 
                 ServerProcess.StandardInput.WriteLine(command);
 
-                if (!NoReload)
+                if (CommandAutoJSONLoad && !NoReload)
                 {
                     System.Threading.Thread.Sleep(100);
 
@@ -569,22 +547,6 @@ namespace MCServerLib
             }
 
             Task.Run(() => OutputReceived?.Invoke(this, OutputEventArgs));
-        }
-
-        private void RaiseEventOnUIThread(Delegate theEvent, object[] args)
-        {
-            foreach (Delegate d in theEvent.GetInvocationList())
-            {
-                ISynchronizeInvoke syncer = d.Target as ISynchronizeInvoke;
-                if (syncer == null)
-                {
-                    d.DynamicInvoke(args);
-                }
-                else
-                {
-                    syncer.BeginInvoke(d, args);  // cleanup omitted
-                }
-            }
         }
     }
 }

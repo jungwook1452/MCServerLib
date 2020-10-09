@@ -10,29 +10,19 @@ namespace MCServerLib
         /// <summary>
         /// 플레이어 닉네임
         /// </summary>
-        public string Name;
+        public string Name { protected set; get; }
 
         /// <summary>
         /// 플레이어 식별번호 (UUID)
         /// </summary>
-        public string UUID;
+        public string UUID { protected set; get; }
     }
 
     /// <summary>
     /// 관리자(OP) 플레이어 정보입니다.
     /// </summary>
-    public class MCOpPlayerInfo
+    public class MCOpPlayerInfo : MCPlayerInfo
     {
-        /// <summary>
-        /// 플레이어 닉네임
-        /// </summary>
-        public string Name { private set; get; }
-
-        /// <summary>
-        /// 플레이어 식별번호 (UUID)
-        /// </summary>
-        public string UUID { private set; get; }
-
         /// <summary>
         /// 관리자 권한 레벨
         /// </summary>
@@ -55,18 +45,8 @@ namespace MCServerLib
     /// <summary>
     /// 밴 플레이어 정보입니다.
     /// </summary>
-    public class MCBanPlayerInfo
+    public class MCBanPlayerInfo : MCPlayerInfo
     {
-        /// <summary>
-        /// 플레이어 닉네임
-        /// </summary>
-        public string Name { private set; get; }
-
-        /// <summary>
-        /// 플레이어 식별번호 (UUID)
-        /// </summary>
-        public string UUID { private set; get; }
-
         /// <summary>
         /// 밴 날짜
         /// </summary>
