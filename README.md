@@ -2,6 +2,8 @@ MCServerLib
 ===========
 마인크래프트 서버 구동 라이브러리입니다.
 
+본 라이브러리는 초기 버전이므로 불안정할 수 있습니다. 따라서 버그 발견 시 lssues에 올려주세요.
+
 Using Librarys
 ===========
 1. Newtonsoft.Json -  MIT License
