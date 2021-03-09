@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -97,7 +96,7 @@ namespace MCServerLib
         /// <param name="ServerCoreFileName">서버 JAR 파일 이름 또는 경로 (예 : craftbukkit.jar)</param>
         public MCServer(string ServerCoreFileName)
         {
-            Init(ServerCoreFileName, GetJavaInstallPath());
+            Initialization(ServerCoreFileName, GetJavaInstallPath());
         }
 
         /// <summary>
@@ -107,7 +106,7 @@ namespace MCServerLib
         /// <param name="JavaSetupPath">자바가 설치되어 있는 경로 (예 : %ProgramFiles%\Java\jre1.8.0_261)</param>
         public MCServer(string ServerCoreFileName, string JavaSetupPath)
         {
-            Init(ServerCoreFileName, JavaSetupPath);
+            Initialization(ServerCoreFileName, JavaSetupPath);
         }
 
         /// <summary>
@@ -129,12 +128,12 @@ namespace MCServerLib
             }
 
             if (Option.JavaPath == null)
-                Init(Option.JarPath, GetJavaInstallPath(), Option);
+                Initialization(Option.JarPath, GetJavaInstallPath(), Option);
             else
-                Init(Option.JarPath, Option.JavaPath, Option);
+                Initialization(Option.JarPath, Option.JavaPath, Option);
         }
 
-        private void Init(string ServerCoreFileName, string JavaSetupPath, MCServerStartOption option = null)
+        private void Initialization(string ServerCoreFileName, string JavaSetupPath, MCServerStartOption option = null)
         {
             // MCServerStartOption 초기화
             if (option == null)
@@ -529,7 +528,7 @@ namespace MCServerLib
 
             if (!IsDone)
             {
-                string output = OutputEventArgs.LogOutput;
+                string output = OutputEventArgs.TextOutput;
 
                 if (System.Text.RegularExpressions.Regex.IsMatch(output, "Done", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
                 {
