@@ -530,7 +530,9 @@ namespace MCServerLib
             {
                 string output = OutputEventArgs.TextOutput;
 
-                if (System.Text.RegularExpressions.Regex.IsMatch(output, "Done", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                if (output != null
+                    && System.Text.RegularExpressions.Regex.IsMatch(output, "Done", System.Text.RegularExpressions.RegexOptions.IgnoreCase)
+                    )
                 {
                     if (System.Text.RegularExpressions.Regex.IsMatch(output, "For help, type \"help\"", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
                     {

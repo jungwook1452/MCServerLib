@@ -135,7 +135,7 @@ namespace MCServerExample
 
         private void Server_OutputReceived(object sender, MCServerOutputEventArgs e)
         {
-            ServerConsoleWriteLine(e.LogOutput);
+            ServerConsoleWriteLine(e.TextOutput);
         }
 
         private void Server_Exited(object sender, EventArgs e)
@@ -188,7 +188,7 @@ namespace MCServerExample
             {
                 if (!Server.ServerProperties.Loaded)
                 {
-                    if (!System.IO.File.Exists(Server.ServerProperties.PropertiesFileName))
+                    if (System.IO.File.Exists(Server.ServerProperties.PropertiesFileName))
                     {
                         MessageBox.Show("서버 폴더 내에서 server.properties 파일을 찾을 수 없습니다.", "server.properties 파일 없음", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
